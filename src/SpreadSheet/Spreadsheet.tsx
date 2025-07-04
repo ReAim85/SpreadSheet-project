@@ -6,11 +6,11 @@ import {
   createColumnHelper,
 } from "@tanstack/react-table";
 import type { ColumnDef } from "@tanstack/react-table";
-import { generateEmptyData } from "./functions/generateEmptyData";
-import type { CellData, Position } from "./functions/interfaces";
-import EditableCell from "./functions/EditableCell";
-import { ColumnHeader } from "./functions/ColumnHeader";
-import { RowHeader } from "./functions/RowHeader";
+import { generateEmptyData } from "./generateEmptyData";
+import type { CellData, Position } from "./interfaces";
+import EditableCell from "./EditableCell";
+import { ColumnHeader } from "./ColumnHeader";
+import { RowHeader } from "./RowHeader";
 
 const ExcelSpreadsheet = () => {
   const [data, setData] = useState(() => generateEmptyData(30, 9));

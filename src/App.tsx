@@ -1,4 +1,4 @@
-import Spreadsheet from "./assets/component/Spreadsheet";
+import Spreadsheet from "./SpreadSheet/Spreadsheet";
 const App = () => {
   return (
     <>

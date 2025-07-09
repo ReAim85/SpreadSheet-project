@@ -3,6 +3,8 @@ import { BsThreeDots } from "react-icons/bs";
 import { BellIcon } from "./bellIconWIthNoti";
 import { FiSearch } from "react-icons/fi";
 import { BiSolidDockRight } from "react-icons/bi";
+import { Sidebar } from "./sidebar";
+import { useState } from "react";
 const FirstSpreadsheetHeader = () => {
   type User = {
     email: string;
@@ -13,6 +15,7 @@ const FirstSpreadsheetHeader = () => {
     email: "vishal123@gmail.com".slice(0, 8),
     userName: "Vishal Jha",
   };
+  const [showSideBar, setShowSideBar] = useState(false);
 
   return (
     // first top bar
@@ -47,7 +50,10 @@ const FirstSpreadsheetHeader = () => {
         <div className="pr-2">
           <BellIcon />
         </div>
-        <div className="flex gap-2">
+        <div
+          className="flex gap-2 mr-5 cursor-pointer"
+          onClick={() => setShowSideBar(!showSideBar)}
+        >
           <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-md font-semibold text-white">
             VJ
           </div>
@@ -55,6 +61,9 @@ const FirstSpreadsheetHeader = () => {
             <div className="text-[15px] text-[#121212] ">{user.userName}</div>
             <div className="-mt-2 text-[#757575]">{user.email + "..."}</div>
           </div>
+        </div>
+        <div>
+          <Sidebar showSideBar={showSideBar} setShowSideBar={setShowSideBar} />
         </div>
       </div>
     </div>

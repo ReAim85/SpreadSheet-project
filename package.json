@@ -17,7 +17,9 @@
     "react-dom": "^19.1.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.6.3",
-    "tailwindcss": "^4.1.11"
+    "reactcomponent": "^1.0.0",
+    "tailwindcss": "^4.1.11",
+    "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",

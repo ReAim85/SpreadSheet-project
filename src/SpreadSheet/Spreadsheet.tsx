@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -11,22 +11,128 @@ import type { CellData, Position } from "./interfaces";
 import EditableCell from "./EditableCell";
 import { ColumnHeader } from "./ColumnHeader";
 import { RowHeader } from "./RowHeader";
+import { BsFillCalendar3WeekFill } from "react-icons/bs";
+import { IoIosArrowDropdownCircle } from "react-icons/io";
+import { TbUserFilled, TbWorld, TbMoodSmileFilled } from "react-icons/tb";
+import { FaBriefcase } from "react-icons/fa6";
 
 const ExcelSpreadsheet = () => {
-  const [data, setData] = useState(() => generateEmptyData(30, 9));
+  const [data, setData] = useState(() => generateEmptyData(30, 8));
   const [selectedCell, setSelectedCell] = useState<Position>({
     rowIndex: 0,
     columnId: "A",
   });
 
+  console.log(selectedCell);
+
   const columnHelper = createColumnHelper<CellData>();
-  const columns = useMemo<ColumnDef<CellData, any>[]>(
+  interface ColumnItem {
+    id: keyof CellData;
+    label: string;
+    icon?: React.JSX.Element;
+    dropdown?: boolean;
+    headerClass?: string;
+  }
+
+  const columnConfig: ColumnItem[] = useMemo(
     () =>
-      Array.from({ length: 9 }, (_, i) => {
-        const colId = String.fromCharCode(65 + i);
-        return columnHelper.accessor(colId, {
-          id: colId,
-          header: () => <ColumnHeader column={{ id: colId }} />,
+      [
+        {
+          id: "A",
+          label: "Job Request",
+          dropdown: true,
+          icon: <FaBriefcase className="text-[#AFAFAF] ml-1" />,
+          headerClass: "font-semibold text-start pl-6",
+        },
+        {
+          id: "B",
+          label: "Submitted",
+          dropdown: true,
+          icon: <BsFillCalendar3WeekFill className="text-[#AFAFAF] ml-1" />,
+          headerClass: "font-semibold text-start pl-6",
+        },
+        {
+          id: "C",
+          label: "Status",
+          dropdown: true,
+          icon: <IoIosArrowDropdownCircle className="text-[#AFAFAF] ml-1" />,
+          headerClass: "font-semibold text-start pl-6",
+        },
+        {
+          id: "D",
+          label: "Submitter",
+          dropdown: true,
+          icon: <TbUserFilled className="text-[#AFAFAF] ml-1" />,
+          headerClass: "font-semibold text-start pl-6",
+        },
+        {
+          id: "E",
+          label: "URL",
+          dropdown: true,
+          icon: <TbWorld className="text-[#AFAFAF] ml-1" />,
+          headerClass: "font-semibold text-start pl-6",
+        },
+        {
+          id: "F",
+          label: "Assigned",
+          icon: <TbMoodSmileFilled />,
+          headerClass: "bg-[#E8F0E9] p-1.5 text-[#666C66] font-semibold",
+        },
+        {
+          id: "G",
+          label: "Priority",
+          headerClass: "bg-[#EAE3FC] p-1.5 text-[#655C80] font-semibold",
+        },
+        {
+          id: "H",
+          label: "Due Date",
+          headerClass: "bg-[#EAE3FC] p-1.5 text-[#655C80] font-semibold",
+        },
+        {
+          id: "I",
+          label: "Est. Value",
+          headerClass: "bg-[#FFE9E0] p-1.5 text-[#8C6C62] font-semibold",
+        },
+      ] as const,
+    []
+  );
+
+  const [columnHeaderSelections, setColumnHeaderSelections] = useState(() =>
+    columnConfig.reduce((acc, col) => {
+      if (col.dropdown) acc[col.id] = col.label;
+      return acc;
+    }, {} as Record<string, string>)
+  );
+
+  const columns = useMemo<ColumnDef<CellData, string>[]>(
+    () =>
+      columnConfig.map(({ id, label, icon, dropdown, headerClass }) =>
+        columnHelper.accessor(id as string, {
+          id: id as string,
+          header: () =>
+            dropdown ? (
+              <div>
+                <ColumnHeader
+                  column={{ id: id as string, originalLabel: label }}
+                  selectedValue={columnHeaderSelections[id]}
+                  style={headerClass}
+                  onChange={(value) =>
+                    setColumnHeaderSelections((prev) => ({
+                      ...prev,
+                      [id]: value,
+                    }))
+                  }
+                />
+                <div className="absolute top-30">{icon}</div>
+              </div>
+            ) : (
+              <div
+                className={`flex items-center gap-1 font-normal text-sm ${headerClass}`}
+              >
+                {icon}
+                {label}
+              </div>
+            ),
           cell: (info) => (
             <EditableCell
               value={info.getValue()}
@@ -34,14 +140,17 @@ const ExcelSpreadsheet = () => {
               column={info.column}
               table={info.table}
               onClick={() =>
-                setSelectedCell({ rowIndex: info.row.index, columnId: colId })
+                setSelectedCell({
+                  rowIndex: info.row.index,
+                  columnId: id as string,
+                })
               }
             />
           ),
           size: 150,
-        });
-      }),
-    [selectedCell]
+        })
+      ),
+    [columnHeaderSelections, columnConfig, columnHelper]
   );
 
   const table = useReactTable({
@@ -49,7 +158,7 @@ const ExcelSpreadsheet = () => {
     columns,
     getCoreRowModel: getCoreRowModel(),
     meta: {
-      updateData: (rowIndex: number, columnId: string, value: any) => {
+      updateData: (rowIndex: number, columnId: string, value: string) => {
         setData((prev) =>
           prev.map((row, index) =>
             index === rowIndex ? { ...row, [columnId]: value } : row

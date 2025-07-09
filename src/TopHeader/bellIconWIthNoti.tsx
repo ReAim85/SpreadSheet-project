@@ -56,6 +56,9 @@ export const BellIcon = () => {
                   </div>
                 }
               </div>
+              <div className="absolute right-3 top-1 font-bold cursor-pointer p-4">
+                X
+              </div>
             </div>
           </div>
         </div>

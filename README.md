@@ -4,11 +4,32 @@ A custom React-based spreadsheet interface built with TypeScript, Vite, Tailwind
 
 ## 🔧 Setup Instructions
 
-Clone the repo:
+1. Clone the repo
 
 ```bash
 git clone https://github.com/reaim85/SpreadSheet-project.git
+
 cd SpreadSheet-project
+```
+
+2. Install dependencies
+
+```bash
+npm install
+```
+
+3. Run the app locally:
+
+```bash
+npm run dev
+
+Build & deploy to GitHub Pages:
+```
+
+4. Build and deploy to GitHub Pages
+
+```bash
+npm run deploy
 ```
 
 ## ⚖️ Trade-offs & Design Decisions

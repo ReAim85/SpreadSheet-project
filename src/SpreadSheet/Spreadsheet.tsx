@@ -17,13 +17,13 @@ import { TbUserFilled, TbWorld, TbMoodSmileFilled } from "react-icons/tb";
 import { FaBriefcase } from "react-icons/fa6";
 
 const ExcelSpreadsheet = () => {
-  const [data, setData] = useState(() => generateEmptyData(30, 8));
+  const [data, setData] = useState(() => generateEmptyData(29, 8));
   const [selectedCell, setSelectedCell] = useState<Position>({
     rowIndex: 0,
     columnId: "A",
   });
 
-  console.log(selectedCell);
+  console.log("This is inside the SpreadSheet.tsx file line 26", selectedCell);
 
   const columnHelper = createColumnHelper<CellData>();
   interface ColumnItem {
@@ -111,7 +111,10 @@ const ExcelSpreadsheet = () => {
           id: id as string,
           header: () =>
             dropdown ? (
-              <div>
+              <div className="-mt-3.5">
+                <span className="flex relative top-6 w-10 -pr-10 z-1">
+                  {icon}
+                </span>
                 <ColumnHeader
                   column={{ id: id as string, originalLabel: label }}
                   selectedValue={columnHeaderSelections[id]}
@@ -123,7 +126,6 @@ const ExcelSpreadsheet = () => {
                     }))
                   }
                 />
-                <div className="absolute top-30">{icon}</div>
               </div>
             ) : (
               <div
@@ -169,7 +171,7 @@ const ExcelSpreadsheet = () => {
   });
 
   return (
-    <div className="w-full h-screen bg-white overflow-auto">
+    <div className="w-full h-screen bg-white overflow-hidden">
       <div className="inline-block min-w-full">
         <table className="border-collapse">
           <thead>

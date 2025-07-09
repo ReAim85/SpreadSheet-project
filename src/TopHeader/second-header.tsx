@@ -15,7 +15,8 @@ const SecondSpreadsheetHeader = () => {
   const [value, copy] = useCopyToClipboard();
   const [hideField, setHideField] = useState(false);
   const [copied, setCopied] = useState(false);
-  console.log(value);
+
+  console.log("This is in the secondHeader.tsx file line 19", value);
   return (
     <div className="w-full border-b border-[#EEEEEE] bg-white px-4 py-2 flex justify-between items-center shadow-sm">
       <div className="flex items-center gap-6">
@@ -51,13 +52,22 @@ const SecondSpreadsheetHeader = () => {
                   </div>
                 )}
               </button>
-              <button className="flex items-center gap-1 hover:text-blue-600 cursor-pointer">
+              <button
+                className="flex items-center gap-1 hover:text-blue-600 cursor-pointer"
+                onClick={() => console.log("Sorting logic goes here")}
+              >
                 <TbArrowsSort className="size-5" /> Sort
               </button>
-              <button className="flex items-center gap-1 hover:text-blue-600 cursor-pointer">
+              <button
+                className="flex items-center gap-1 hover:text-blue-600 cursor-pointer"
+                onClick={() => console.log("Filter logic goes here")}
+              >
                 <MdFilterList className="size-5" /> Filter
               </button>
-              <button className="flex items-center gap-1 hover:text-blue-600 cursor-pointer">
+              <button
+                className="flex items-center gap-1 hover:text-blue-600 cursor-pointer"
+                onClick={() => console.log("Cell View logic goes here")}
+              >
                 <TbArrowAutofitHeight className="size-5" />
                 Cell view
               </button>
@@ -94,7 +104,12 @@ const SecondSpreadsheetHeader = () => {
           )}
           Share
         </button>
-        <button className="bg-[#4B6A4F] text-white py-2 px-6 rounded-lg border-2 border-[#000000] flex items-center gap-1 cursor-pointer">
+        <button
+          className="bg-[#4B6A4F] text-white py-2 px-6 rounded-lg border-2 border-[#000000] flex items-center gap-1 cursor-pointer"
+          onClick={() => {
+            alert("do some Action I guess?");
+          }}
+        >
           <img src={SplitArrow} /> New Action
         </button>
         <div className="absolute"></div>
